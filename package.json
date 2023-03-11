@@ -1,0 +1,32 @@
+{
+  "name": "smms-backend",
+  "version": "1.0.0",
+  "description": "This is the backend of the smms",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FY-PROJECT/SMMS-backend.git"
+  },
+  "author": "Rahul Soni",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FY-PROJECT/SMMS-backend/issues"
+  },
+  "homepage": "https://github.com/FY-PROJECT/SMMS-backend#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-validator": "^6.15.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  }
+}
