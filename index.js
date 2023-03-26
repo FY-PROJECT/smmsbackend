@@ -14,9 +14,10 @@ app.use(cors())
 app.use(express.json())
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api/trainer', require('./routes/trainer'))
+app.use('/api/query', require('./routes/query'))
 
 app.get('/', (req, res) => {
-  res.send('Welcome to SMMS Backend')
+  res.send('Hello World!')
 })
 
 app.listen(PORT, () => {

@@ -2,16 +2,16 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = "atish";
 
 const fetchUser = (req, res, next) => {
-    try{
+    try {
         const token = req.header("auth-token");
-        if(!token){
-            res.status(401).send({error : "Invalid token"});
+        if (!token) {
+            throw new Error("Invalid token");
         }
         const tokenData = jwt.verify(token, JWT_SECRET);
         req.userId = tokenData.id;
         next();
-    }catch(e){
-        res.status(401).send({error : "Invalid token"});
+    } catch (e) {
+        res.status(401).send({status:false,error: e.message});
     }
 }
 

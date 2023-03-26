@@ -7,7 +7,7 @@ const mongoURI = process.env.MONGODB_URI;
 
 const dbCon =() =>{
     mongoose.connect(mongoURI, ()=>{
-        console.log("Connected to DB"+mongoURI);
+        console.log("Connected to DB");
     })
 }
 

@@ -15,8 +15,7 @@ router.get('/records',fetchUser,async (req,res)=>{
 router.get('/records/:id',async (req,res)=>{
     try{
         const trainer = await Trainer.findOne({_id : req.params.id})
-        const status = true;
-        res.send({status,trainer});
+        res.send({status:true,trainer});
     }catch(err){
         res.status(500).send({status:false,msg:"Internal server error",error:err.message});
     }
@@ -38,7 +37,7 @@ router.post('/records', async (req, res) => {
   }
 });
 
-router.post('/addTrainer', async (req, res) => {
+router.post('/addTrainer',fetchUser, async (req, res) => {
   try {
     let status = true
     const record = req.body;
@@ -49,7 +48,7 @@ router.post('/addTrainer', async (req, res) => {
   }
 });
 
-router.put('/records/:id', async (req, res) => {
+router.patch('/records/:id', fetchUser,async (req, res) => {
   try {
     let status = true
     const record = req.body;
