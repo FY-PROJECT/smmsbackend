@@ -20,6 +20,9 @@ const trainerSchema = new Schema({
     aadharNo:{
         type : Number,
     },
+    phoneNo:{
+        type:Number,
+    },
     state:{
         type : String,
     },
