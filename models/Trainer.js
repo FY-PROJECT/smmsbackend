@@ -4,7 +4,8 @@ const {Schema} = mongoose;
 const trainerSchema = new Schema({
     bsgid : {
         type : String,
-        required : true
+        required : true,
+        unique : true
     },
     name : {
         type : String,
@@ -14,11 +15,15 @@ const trainerSchema = new Schema({
         type : String,
     },
     dob : {
-        type : String,
+        type : Date,
         required : true
     },
     aadharNo:{
         type : Number,
+    },
+    phoneNo : {
+        type : Number,
+        required : true
     },
     state:{
         type : String,
@@ -39,7 +44,7 @@ const trainerSchema = new Schema({
         required : true
     },
     certificateDate : {
-        type : String,
+        type : Date,
         required : true
     },
     honrableChargeNo:{
@@ -47,18 +52,21 @@ const trainerSchema = new Schema({
         required : true
     },
     honrableChargeDate:{
-        type : String,
+        type : Date,
         required : true
     },
     certificateValidity : {
-        type : String,
+        type : Date,
         required : true
     },
     date : {
         type : Date,
         default : Date.now
     },
-    
+    status : {
+        type : String,
+        default : "Accepted"
+    }    
   });
 
 const Trainer = mongoose.model('Trainers', trainerSchema);

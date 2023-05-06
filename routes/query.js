@@ -6,17 +6,16 @@ const mail = require("../email");
 const { body, validationResult } = require("express-validator");
 
 router.get('/queries', fetchUser, async (req, res) => {
-    console.log("Query get request received")
     try {
         const queries = await Query.find({ replied: false });
-        res.send({ status: true, queries });
+        if(queries.length ===  0) res.status(404).json({ status: false, msg: "No queries found" });
+        else res.status(200).send({ status: true, queries });
     } catch (err) {
         res.status(500).json({ status: false, msg: "Internal Server Error", error: err.message });
     }
 });
 
 router.get('/logs', fetchUser, async (req, res) => {
-    console.log("Query get request received")
     try {
         const queries = await Query.find({ replied: true });
         res.send({ status: true, queries });
@@ -25,7 +24,7 @@ router.get('/logs', fetchUser, async (req, res) => {
     }
 });
 
-
+// Stores user query in database and sends acknowledgement email to user
 router.post('/new', [body("email", "Enter a valid email").isEmail()], async (req, res) => {
     try {
         const errors = validationResult(req);
@@ -42,15 +41,14 @@ router.post('/new', [body("email", "Enter a valid email").isEmail()], async (req
         await Query.create(record);
 
         const toEmail = record.email;
-        const subject = "Thank you for contacting us";
-        const body = `Dear ${record.name},\n\nThank you for contacting us. Our coordinators will get back to you soon.\n\nRegards,\nAtish Gupta\nCoordinator SMMS`;
+        const subject = "Acknowledgement of your query";
+        const body = `Dear ${record.name},\n\nThank you for contacting us.\n\nWe Received your Query\n${req.body.message}\n\n Our coordinators will get back to you soon.\n\nRegards,\nAtish Gupta\nCoordinator SMMS`;
 
         const response = await mail(toEmail, subject, body);
-        // console.log(response);
         if (response.status === false) {
             res.status(400).send(response);
         }
-        res.send({ status, msg: "Thank you reaching out to us.\n We will get back to you soon on your email." });
+        res.send({ status, msg: "Thank you for reaching out to us.\n We will get back to you soon on your email." });
     } catch (err) {
         res.status(500).json({ status: false, msg: "Internal Server Error", error: err.message });
     }
