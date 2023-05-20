@@ -15,7 +15,7 @@ const trainerSchema = new Schema({
         type : String,
     },
     dob : {
-        type : Date,
+        type : String,
         required : true
     },
     aadharNo:{
@@ -44,7 +44,7 @@ const trainerSchema = new Schema({
         required : true
     },
     certificateDate : {
-        type : Date,
+        type : String,
         required : true
     },
     honrableChargeNo:{
@@ -52,11 +52,11 @@ const trainerSchema = new Schema({
         required : true
     },
     honrableChargeDate:{
-        type : Date,
+        type : String,
         required : true
     },
     certificateValidity : {
-        type : Date,
+        type : String,
         required : true
     },
     date : {

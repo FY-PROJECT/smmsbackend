@@ -8,11 +8,13 @@ const Reply = require("../reply");
  * @route   POST /api/trainer/addTrainer
  * @desc    Adds a new trainer
  * @access  Private
+ * @param   trainer object in body of request (Refer to Trainer model for more details)
+ * @return  status, msg (status: true if successful, msg: message to be displayed to user) 
  */
 router.post('/addTrainer', async (req, res) => {
   try {
     const record = req.body;
-    console.log(record)
+    console.log(record);
     const existingRecord = await Trainer.findOne({ bsgid: record.bsgid });
     if (existingRecord) {
       return res.status(400).send({ status: false, msg: 'Record already exists\n Contact Admin if this is a mistake' });
@@ -28,6 +30,7 @@ router.post('/addTrainer', async (req, res) => {
   @route  GET /api/trainer/count
   @desc   Get the count of trainers
   @access Public
+  @param  None
 */
 router.get('/count',async (req,res)=>{
     try{
@@ -95,7 +98,7 @@ router.get('/count',async (req,res)=>{
 router.get('/records',fetchUser,async (req,res)=>{
     try{
         const trainers = await Trainer.find().select("-_id -__v")
-        trainers.length === 0 ? res.status(404).send({status:false,msg:Reply["noRecordFound"]}) : res.status(200).send({status:true,trainers});
+        trainers.length === 0 ? res.status(404).send({status:false,msg:"No Record Found"}) : res.status(200).send({status:true,trainers});
     }catch(err){
         res.status(500).send({status:false,msg:"Internal server error"});
     }
@@ -105,18 +108,19 @@ router.get('/records',fetchUser,async (req,res)=>{
  * @route   GET /api/trainer/records/:bsgid
  * @desc    Fetches and returns the record of a individual trainer by bsgid
  * @access  Public
+ * @param   bsgid : in params of request
+ * @param   dob : in headers of request
  */
 router.get('/records/:bsgid', async (req, res) => {
   try {
-    const dob = new Date(req.headers.dob);
-    if (!dob || isNaN(dob.getTime())) {
-      return res.status(400).send({ status: false, msg: 'Invalid dob' });
+    const dob = (req.headers.dob);
+    console.log(dob);
+    if (!dob) {
+      return res.status(400).send({ status: false, msg: 'Invalid Authentication' });
     }
-    let nextDay = new Date(dob);
-    nextDay.setDate(nextDay.getDate() + 1);
     const trainer = await Trainer.findOne({
       bsgid: req.params.bsgid.toUpperCase(),
-      dob: {$gte:dob,$lt:nextDay},
+      dob: dob,
     }).select('-_id -__v');
     if (trainer) {
       return res.send({ status: true, trainer });
